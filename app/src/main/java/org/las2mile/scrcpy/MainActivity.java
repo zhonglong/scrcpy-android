@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements Scrcpy.ServiceCallbacks, S
     private static final String PREFERENCE_SPINNER_BITRATE = "spinner_bitrate";
     private static int screenWidth;
     private static int screenHeight;
-    private static boolean landscape = false;
+    private static boolean landscape = true;
     private static boolean first_time = true;
     private static boolean result_of_Rotation = false;
     private static boolean serviceBound = false;
@@ -133,7 +133,7 @@ public class MainActivity extends Activity implements Scrcpy.ServiceCallbacks, S
 
     @SuppressLint("SourceLockedOrientationActivity")
     public void scrcpy_main(){
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setRequestedOrientation(landscape ? ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE : ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
         final Button startButton = findViewById(R.id.button_start);
         AssetManager assetManager = getAssets();
@@ -367,13 +367,14 @@ public class MainActivity extends Activity implements Scrcpy.ServiceCallbacks, S
         unbindService(serviceConnection);
         serviceBound = false;
         result_of_Rotation = true;
-        landscape = !landscape;
+//        landscape = !landscape;
         swapDimensions();
         if (landscape) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+        runOnUiThread(() -> recreate());
     }
 
     @Override
