@@ -199,7 +199,7 @@ public class Scrcpy extends Service {
                                 } else if (videoPacket.flag == VideoPacket.Flag.END) {
                                     // need close stream
                                 } else {
-                                    videoDecoder.decodeSample(data, 0, data.length, 0, videoPacket.flag.getFlag());
+                                    videoDecoder.decodeSample(data, 0, data.length, videoPacket.presentationTimeStamp, videoPacket.flag.getFlag());
                                 }
                                 first_time = false;
                             }

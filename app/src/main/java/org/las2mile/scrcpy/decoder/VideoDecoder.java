@@ -62,6 +62,7 @@ public class VideoDecoder {
 
             }
             MediaFormat format = MediaFormat.createVideoFormat("video/avc", width, height);
+            format.setInteger(MediaFormat.KEY_LOW_LATENCY, 1);
             format.setByteBuffer("csd-0", csd0);
             format.setByteBuffer("csd-1", csd1);
             try {
@@ -90,7 +91,7 @@ public class VideoDecoder {
                     }
                     if (buffer != null) {
                         buffer.put(data, offset, size);
-                        mCodec.queueInputBuffer(index, 0, size, 0, flags);
+                        mCodec.queueInputBuffer(index, 0, size, presentationTimeUs, flags);
                     }
                 }
             }
